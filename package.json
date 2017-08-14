@@ -1,0 +1,11 @@
+{
+  "name": "zen-push",
+  "version": "0.1.0",
+  "repository": "zenparsing/zen-push",
+  "description": "An Observable push stream",
+  "homepage": "https://github.com/zenparsing/zen-push",
+  "license": "MIT",
+  "dependencies": {
+    "zen-observable": "^0.5.2"
+  }
+}
