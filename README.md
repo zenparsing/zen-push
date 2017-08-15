@@ -1,8 +1,6 @@
 # zen-push
 
-A push stream observable class.
-
-*Sometimes called a Subject in Rx-speak.*
+A push stream observable class. *(Sometimes called a Subject in Rx-speak.)*
 
 ## Install
 

@@ -18,6 +18,9 @@ function send(observers, message, value) {
   });
 
   list.forEach(function(observer) {
+    if (observer.closed) {
+      return;
+    }
     try {
       switch (message) {
         case 'next': return observer.next(value);

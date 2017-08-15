@@ -45,3 +45,16 @@ class MockObserver {
   assert.equal(a.completeValue, 1);
   assert.equal(b.completeValue, 1);
 }
+
+{ // Errors should not be sent to closed subscriptions
+  let pusher = new PushStream();
+  let subscription;
+
+  pusher.observable.subscribe({
+    next() {},
+    error() { subscription.unsubscribe(); },
+  });
+
+  subscription = pusher.observable.subscribe(() => null);
+  pusher.error(new Error('Should not be thrown'));
+}
