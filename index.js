@@ -33,12 +33,16 @@ function send(observers, message, value) {
   });
 }
 
-function PushStream() {
+function PushStream(opts) {
   var observers = new Set();
   this._observers = observers;
   this._observable = new Observable(function(observer) {
+    observers.size === 0 && opts && opts.start && opts.start();
     observers.add(observer);
-    return function() { observers.delete(observer); };
+    return function() {
+      observers.delete(observer);
+      observers.size === 0 && opts && opts.pause && opts.pause();
+    };
   });
 }
 
