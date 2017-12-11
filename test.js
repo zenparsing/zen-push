@@ -46,6 +46,27 @@ class MockObserver {
   assert.equal(b.completeValue, 1);
 }
 
+{ // No observers
+  let pusher = new PushStream();
+  pusher.next(1);
+  pusher.complete();
+}
+
+{ // Single observers
+  let pusher = new PushStream();
+  let a = new MockObserver();
+
+  pusher.observable.subscribe(a);
+  pusher.next(1);
+  assert.equal(a.nextValue, 1);
+
+  pusher.next(2);
+  assert.equal(a.nextValue, 2);
+
+  pusher.complete(1);
+  assert.equal(a.completeValue, 1);
+}
+
 { // Errors should not be sent to closed subscriptions
   let pusher = new PushStream();
   let subscription;

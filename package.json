@@ -1,6 +1,6 @@
 {
   "name": "zen-push",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "repository": "zenparsing/zen-push",
   "description": "An Observable push stream",
   "homepage": "https://github.com/zenparsing/zen-push",
