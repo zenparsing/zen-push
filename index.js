@@ -24,14 +24,10 @@ function sendMessage(observer, message, value) {
   if (observer.closed) {
     return;
   }
-  try {
-    switch (message) {
-      case 'next': return observer.next(value);
-      case 'error': return observer.error(value);
-      case 'complete': return observer.complete(value);
-    }
-  } catch (e) {
-    setTimeout(function() { throw e; }, 0);
+  switch (message) {
+    case 'next': return observer.next(value);
+    case 'error': return observer.error(value);
+    case 'complete': return observer.complete(value);
   }
 }
 

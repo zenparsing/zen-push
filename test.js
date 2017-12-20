@@ -6,7 +6,7 @@ const PushStream = require('./');
 class MockObserver {
   next(x) { this.nextValue = x; }
   error(e) { this.errorValue = e; }
-  complete(x) { this.completeValue = x; }
+  complete(x) { this.completeCalled = true; }
 }
 
 { // Sending values and errors
@@ -41,9 +41,9 @@ class MockObserver {
   pusher.observable.subscribe(a);
   pusher.observable.subscribe(b);
 
-  pusher.complete(1);
-  assert.equal(a.completeValue, 1);
-  assert.equal(b.completeValue, 1);
+  pusher.complete();
+  assert.equal(a.completeCalled, true);
+  assert.equal(b.completeCalled, true);
 }
 
 { // No observers
@@ -64,7 +64,7 @@ class MockObserver {
   assert.equal(a.nextValue, 2);
 
   pusher.complete(1);
-  assert.equal(a.completeValue, 1);
+  assert.equal(a.completeCalled, true);
 }
 
 { // Errors should not be sent to closed subscriptions
