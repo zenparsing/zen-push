@@ -27,7 +27,7 @@ function sendMessage(observer, message, value) {
   switch (message) {
     case 'next': return observer.next(value);
     case 'error': return observer.error(value);
-    case 'complete': return observer.complete(value);
+    case 'complete': return observer.complete();
   }
 }
 
@@ -83,7 +83,7 @@ addMethods(PushStream.prototype, {
   get observed() { return hasObserver(this); },
   next: function(x) { send(this, 'next', x); },
   error: function(e) { send(this, 'error', e); },
-  complete: function(x) { send(this, 'complete', x); },
+  complete: function() { send(this, 'complete'); },
 });
 
 module.exports = PushStream;
