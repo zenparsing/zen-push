@@ -1,12 +1,13 @@
 'use strict';
 
 const assert = require('assert');
+const Observable = require('zen-observable');
 const PushStream = require('./');
 
 class MockObserver {
   next(x) { this.nextValue = x; }
   error(e) { this.errorValue = e; }
-  complete(x) { this.completeCalled = true; }
+  complete() { this.completeCalled = true; }
 }
 
 { // Sending values and errors
@@ -102,5 +103,29 @@ class MockObserver {
     ['handler1'],
     ['handler2'],
     ['pause', undefined],
+  ]);
+}
+
+{ // multicast
+  let observer;
+  let observable = new Observable(x => observer = x);
+
+  let multi = PushStream.multicast(observable);
+  let values = [];
+  multi.subscribe(x => values.push([0, x]));
+  multi.subscribe(x => values.push([1, x]));
+
+  observer.next(1);
+  observer.next(2);
+  observer.next(3);
+  observer.complete();
+
+  assert.deepEqual(values, [
+    [0, 1],
+    [1, 1],
+    [0, 2],
+    [1, 2],
+    [0, 3],
+    [1, 3],
   ]);
 }

@@ -2,14 +2,6 @@
 
 var Observable = require('zen-observable');
 
-function addMethods(target, methods) {
-  Object.keys(methods).forEach(function(k) {
-    var desc = Object.getOwnPropertyDescriptor(methods, k);
-    desc.enumerable = false;
-    Object.defineProperty(target, k, desc);
-  });
-}
-
 function send(p, message, value) {
   if (p._observer) {
     sendMessage(p._observer, message, value);
@@ -64,26 +56,45 @@ function notifyPause(p, opts) {
   !hasObserver(p) && opts && opts.pause && opts.pause();
 }
 
-function PushStream(opts) {
-  var p = this;
-  this._observer = null;
-  this._observers = null;
-  this._observable = new Observable(function(observer) {
-    notifyStart(p, opts);
-    addObserver(p, observer);
-    return function() {
-      deleteObserver(p, observer);
-      notifyPause(p, opts);
-    };
-  });
-}
+class PushStream {
+  constructor(opts) {
+    this._observer = null;
+    this._observers = null;
+    this._observable = new Observable((observer) => {
+      notifyStart(this, opts);
+      addObserver(this, observer);
+      return () => {
+        deleteObserver(this, observer);
+        notifyPause(this, opts);
+      };
+    });
+  }
 
-addMethods(PushStream.prototype, {
-  get observable() { return this._observable; },
-  get observed() { return hasObserver(this); },
-  next: function(x) { send(this, 'next', x); },
-  error: function(e) { send(this, 'error', e); },
-  complete: function() { send(this, 'complete'); },
-});
+  get observable() {
+    return this._observable;
+  }
+
+  get observed() {
+    return hasObserver(this);
+  }
+
+  next(x) {
+    send(this, 'next', x);
+  }
+
+  error(e) {
+    send(this, 'error', e);
+  }
+
+  complete() {
+    send(this, 'complete');
+  }
+
+  static multicast(observable) {
+    let stream = new this();
+    observable.subscribe(stream);
+    return stream.observable;
+  }
+}
 
 module.exports = PushStream;

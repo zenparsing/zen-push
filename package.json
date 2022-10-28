@@ -6,7 +6,13 @@
   "homepage": "https://github.com/zenparsing/zen-push",
   "license": "MIT",
   "dependencies": {
-    "zen-observable": "^0.8.6"
+    "zen-observable": "^0.8.15"
   },
-  "devDependencies": {}
+  "scripts": {
+    "test": "node ./test.js",
+    "lint": "eslint ./*.js"
+  },
+  "devDependencies": {
+    "eslint": "^8.26.0"
+  }
 }

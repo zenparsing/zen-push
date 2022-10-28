@@ -20,13 +20,13 @@ pushStream.next('World'); // 'Hello World!'
 
 ## API
 
-### new PushStream ( )
+### new PushStream()
 
 ```js
 let pushStream = new PushStream();
 ```
 
-Creates a new PushStream object.
+Creates a new `PushStream` object.
 
 ### pushStream.observable
 
@@ -36,7 +36,7 @@ pushStream.observable.subscribe(value => console.log(`Hello ${value}!`));
 
 The instance of [Observable](https://github.com/tc39/proposal-observable) used to listen to elements in the push stream.
 
-### pushStream.next ( value )
+### pushStream.next(value)
 
 ```js
 pushStream.next('World');
@@ -44,7 +44,7 @@ pushStream.next('World');
 
 Sends the next stream value to all observers.
 
-### pushStream.error ( error )
+### pushStream.error(error)
 
 ```js
 pushStream.error(new Error('The planet as been destroyed'));
@@ -52,10 +52,20 @@ pushStream.error(new Error('The planet as been destroyed'));
 
 Sends an error to all observers. Calling this method terminates the stream.
 
-### pushStream.complete ( )
+### pushStream.complete()
 
 ```js
 pushStream.complete();
 ```
 
 Sends a signal to all observers that the stream is finished. Calling this method terminates the stream.
+
+### PushStream.multicast(observable)
+
+```js
+let multicastObservable = PushStream.multicast(observable);
+multicastObservable.subscribe(console.log);
+multicastObservable.subscribe(console.log);
+```
+
+Uses a `PushStream` to send an observable's values to multiple subscribers.

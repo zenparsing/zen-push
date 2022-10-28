@@ -2,6 +2,7 @@ module.exports = {
   "extends": ["eslint:recommended"],
 
   "env": {
+    "es2018": true,
     "commonjs": true
   },
 
@@ -38,9 +39,5 @@ module.exports = {
     "object-curly-spacing": ["error", "always"],
     "array-bracket-spacing": ["error"],
     "max-len": ["error", 100]
-  },
-
-  "parserOptions": {
-    "ecmaVersion": 5
   }
 };
